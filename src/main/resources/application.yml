@@ -1,9 +1,8 @@
-
 spring:
   datasource:
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/runswithshedlock}
-    username: ${JDBC_DATABASE_USERNAME:psqladmin}
-    password: ${JDBC_DATABASE_PASSWORD:psqladminpas$}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 10
@@ -37,5 +36,3 @@ management:
   endpoint:
     health:
       show-details: always
-server:
-  port: 9080

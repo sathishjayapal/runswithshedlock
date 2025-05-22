@@ -18,6 +18,7 @@ public class LocalDevConfig {
 
     public LocalDevConfig(final TemplateEngine templateEngine) throws IOException {
         final ClassPathResource applicationYml = new ClassPathResource("application.yml");
+        System.out.println("applicationYml: " + applicationYml.getPath());
         if (applicationYml.isFile()) {
             File sourceRoot = applicationYml.getFile().getParentFile();
             while (sourceRoot.listFiles((dir, name) -> name.equals("mvnw")).length != 1) {

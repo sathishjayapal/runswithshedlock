@@ -9,6 +9,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+      naming:
+        physical-strategy: me.sathish.runswithshedlock.config.RunswithshedlockNamingStrategy
     open-in-view: false
     properties:
       hibernate:

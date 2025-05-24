@@ -1,6 +1,6 @@
 CREATE SEQUENCE  IF NOT EXISTS primary_sequence START WITH 10000 INCREMENT BY 1;
 
-CREATE TABLE garmin_run (
+CREATE TABLE garmin_run_shedlock (
     id BIGINT NOT NULL,
     activityid INTEGER,
     activity_date TEXT,
@@ -13,16 +13,16 @@ CREATE TABLE garmin_run (
     runner_id BIGINT NOT NULL,
     date_created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     last_updated TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    CONSTRAINT garmin_run_pkey PRIMARY KEY (id)
+    CONSTRAINT garmin_run_shedlock_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE runner (
+CREATE TABLE runner_shedlock (
     id BIGINT NOT NULL,
     username VARCHAR(255),
     email VARCHAR(255),
     date_created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     last_updated TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    CONSTRAINT runner_pkey PRIMARY KEY (id)
+    CONSTRAINT runner_shedlock_pkey PRIMARY KEY (id)
 );
 
-ALTER TABLE garmin_run ADD CONSTRAINT fk_garmin_run_runner_id FOREIGN KEY (runner_id) REFERENCES runner (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE garmin_run_shedlock ADD CONSTRAINT fk_garmin_run_runner_id FOREIGN KEY (runner_id) REFERENCES runner_shedlock (id) ON UPDATE NO ACTION ON DELETE NO ACTION;

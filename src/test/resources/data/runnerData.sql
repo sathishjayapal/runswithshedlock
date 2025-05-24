@@ -1,4 +1,4 @@
-INSERT INTO runner (
+INSERT INTO runner_shedlock (
     id,
     username,
     email,
@@ -12,7 +12,7 @@ INSERT INTO runner (
     '2024-09-02 14:30:00'
 );
 
-INSERT INTO runner (
+INSERT INTO runner_shedlock (
     id,
     username,
     email,

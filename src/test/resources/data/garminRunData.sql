@@ -1,4 +1,4 @@
-INSERT INTO garmin_run (
+INSERT INTO garmin_run_shedlock (
     id,
     activityid,
     activity_date,
@@ -26,7 +26,7 @@ INSERT INTO garmin_run (
     '2024-09-02 14:30:00'
 );
 
-INSERT INTO garmin_run (
+INSERT INTO garmin_run_shedlock (
     id,
     activityid,
     activity_date,

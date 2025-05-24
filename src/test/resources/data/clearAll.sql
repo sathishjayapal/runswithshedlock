@@ -1,3 +1,3 @@
-DELETE FROM garmin_run;
+DELETE FROM garmin_run_shedlock;
 
-DELETE FROM runner;
+DELETE FROM runner_shedlock;

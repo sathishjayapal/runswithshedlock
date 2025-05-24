@@ -1,5 +1,10 @@
 package me.sathish.runswithshedlock.garmin_run;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import me.sathish.runswithshedlock.model.SimpleValue;
 import org.springframework.data.domain.Page;
@@ -39,10 +44,29 @@ public class GarminRunResource {
         this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
+    @Operation(
+            parameters = {
+                    @Parameter(
+                            name = "page",
+                            in = ParameterIn.QUERY,
+                            schema = @Schema(implementation = Integer.class)
+                    ),
+                    @Parameter(
+                            name = "size",
+                            in = ParameterIn.QUERY,
+                            schema = @Schema(implementation = Integer.class)
+                    ),
+                    @Parameter(
+                            name = "sort",
+                            in = ParameterIn.QUERY,
+                            schema = @Schema(implementation = String.class)
+                    )
+            }
+    )
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<GarminRunDTO>>> getAllGarminRuns(
             @RequestParam(name = "filter", required = false) final String filter,
-            @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable) {
+            @Parameter(hidden = true) @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable) {
         final Page<GarminRunDTO> garminRunDTOs = garminRunService.findAll(filter, pageable);
         return ResponseEntity.ok(pagedResourcesAssembler.toModel(garminRunDTOs, garminRunAssembler));
     }
@@ -55,6 +79,7 @@ public class GarminRunResource {
     }
 
     @PostMapping
+    @ApiResponse(responseCode = "201")
     public ResponseEntity<EntityModel<SimpleValue<Long>>> createGarminRun(
             @RequestBody @Valid final GarminRunDTO garminRunDTO) {
         final Long createdId = garminRunService.create(garminRunDTO);
@@ -70,6 +95,7 @@ public class GarminRunResource {
     }
 
     @DeleteMapping("/{id}")
+    @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> deleteGarminRun(@PathVariable(name = "id") final Long id) {
         garminRunService.delete(id);
         return ResponseEntity.noContent().build();

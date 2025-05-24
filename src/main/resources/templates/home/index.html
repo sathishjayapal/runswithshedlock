@@ -7,7 +7,11 @@
     <body>
         <div layout:fragment="content">
             <h1 class="grow text-3xl md:text-4xl font-medium mb-8">[[#{home.index.headline}]]</h1>
-            <p class="mb-12">[(#{home.index.text})]</p>
+            <p class="mb-4">[(#{home.index.text})]</p>
+            <p class="mb-12">
+                <span>[[#{home.index.swagger.text}]]</span>
+                <a th:href="@{/swagger-ui.html}" target="_blank" class="underline">[[#{home.index.swagger.link}]]</a>.
+            </p>
             <div class="md:w-2/5 mb-12">
                 <h4 class="text-2xl font-medium mb-4">[[#{home.index.exploreEntities}]]</h4>
                 <div class="flex flex-col border border-gray-300 rounded">

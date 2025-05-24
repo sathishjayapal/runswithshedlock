@@ -9,8 +9,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-      naming:
-        physical-strategy: me.sathish.runswithshedlock.config.RunswithshedlockNamingStrategy
     open-in-view: false
     properties:
       hibernate:
@@ -19,6 +17,8 @@ spring:
             non_contextual_creation: true
         id:
           new_generator_mappings: true
+  session:
+    jdbc.initialize-schema: always
 error:
   handling:
     http-status-in-json-response: true
@@ -36,3 +36,5 @@ management:
   endpoint:
     health:
       show-details: always
+springdoc:
+  pathsToMatch: /home, /api/**

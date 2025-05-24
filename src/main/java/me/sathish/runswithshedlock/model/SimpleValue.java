@@ -1,8 +1,10 @@
 package me.sathish.runswithshedlock.model;
 
+import lombok.Getter;
 import org.springframework.hateoas.EntityModel;
 
 
+@Getter
 public class SimpleValue<T> {
 
     private final T value;
@@ -14,10 +16,6 @@ public class SimpleValue<T> {
     public static <T> EntityModel<SimpleValue<T>> entityModelOf(final T value) {
         final SimpleValue<T> simpleValue = new SimpleValue<>(value);
         return EntityModel.of(simpleValue);
-    }
-
-    public T getValue() {
-        return value;
     }
 
 }

@@ -10,6 +10,9 @@ settings for development.
 During development it is recommended to use the profile `local`. In IntelliJ `-Dspring.profiles.active=local` can be
 added in the VM options of the Run Configuration after enabling this property in "Modify options".
 
+Lombok must be supported by your IDE. For IntelliJ install the Lombok plugin and enable annotation processing -
+[learn more](https://bootify.io/next-steps/spring-boot-with-lombok.html).
+
 In addition to the Spring Boot application, the DevServer must also be started - for this
 [Node.js](https://nodejs.org/) version 22 is required. On first usage and after updates the dependencies have to be installed:
 
@@ -26,9 +29,14 @@ npm run devserver
 Using a proxy the whole application is now accessible under `localhost:8081`. All changes to the templates and JS/CSS
 files are immediately visible in the browser.
 
+## Testing requirements
+
+To run the tests and build, [Docker](https://www.docker.com/get-started/) must be available on the current system. Due
+to the reuse flag, the container will not shut down after the tests. It can be stopped manually if needed.
+
 ## Build
 
-The application can be built using the following command:
+The application can be tested and built using the following command:
 
 ```
 mvnw clean package

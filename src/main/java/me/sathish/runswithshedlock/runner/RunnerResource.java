@@ -1,5 +1,6 @@
 package me.sathish.runswithshedlock.runner;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import me.sathish.runswithshedlock.model.SimpleValue;
@@ -47,6 +48,7 @@ public class RunnerResource {
     }
 
     @PostMapping
+    @ApiResponse(responseCode = "201")
     public ResponseEntity<EntityModel<SimpleValue<Long>>> createRunner(
             @RequestBody @Valid final RunnerDTO runnerDTO) {
         final Long createdId = runnerService.create(runnerDTO);
@@ -62,6 +64,7 @@ public class RunnerResource {
     }
 
     @DeleteMapping("/{id}")
+    @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> deleteRunner(@PathVariable(name = "id") final Long id) {
         final ReferencedWarning referencedWarning = runnerService.getReferencedWarning(id);
         if (referencedWarning != null) {

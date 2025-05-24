@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 
 @Configuration
@@ -34,7 +35,15 @@ public class UsersecuritySecurityConfig {
         return http.cors(withDefaults())
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/home", "/api/**", "/actuator/**"))
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-                .httpBasic(basic -> basic.realmName("usersecurity realm"))
+                .formLogin(form -> form
+                    .loginPage("/login")
+                    .usernameParameter("login")
+                    .failureUrl("/login?loginError=true"))
+                .logout(logout -> logout
+                    .logoutSuccessUrl("/?logoutSuccess=true")
+                    .deleteCookies("SESSION"))
+                .exceptionHandling(exception -> exception
+                    .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true")))
                 .build();
     }
 

@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,6 +17,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
 public class Runner {
 
     @Id
@@ -44,45 +48,5 @@ public class Runner {
     @LastModifiedDate
     @Column(nullable = false)
     private OffsetDateTime lastUpdated;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(final String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-
-    public OffsetDateTime getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(final OffsetDateTime dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public OffsetDateTime getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(final OffsetDateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
 
 }

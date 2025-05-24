@@ -1,17 +1,14 @@
-
 spring:
   datasource:
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/runswithshedlock}
-    username: ${JDBC_DATABASE_USERNAME:psqladmin}
-    password: ${JDBC_DATABASE_PASSWORD:psqladminpas$}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 10
   jpa:
     hibernate:
       ddl-auto: validate
-      naming:
-        physical-strategy: me.sathish.runswithshedlock.config.RunswithshedlockNamingStrategy
     open-in-view: false
     properties:
       hibernate:
@@ -20,6 +17,8 @@ spring:
             non_contextual_creation: true
         id:
           new_generator_mappings: true
+  session:
+    jdbc.initialize-schema: always
 error:
   handling:
     http-status-in-json-response: true
@@ -37,5 +36,5 @@ management:
   endpoint:
     health:
       show-details: always
-server:
-  port: 9080
+springdoc:
+  pathsToMatch: /home, /api/**

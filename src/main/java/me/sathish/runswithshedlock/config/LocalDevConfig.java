@@ -1,7 +1,7 @@
 package me.sathish.runswithshedlock.config;
 
 import java.io.File;
-import java.io.IOException;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
@@ -16,7 +16,8 @@ import org.thymeleaf.templateresolver.FileTemplateResolver;
 @Profile("local")
 public class LocalDevConfig {
 
-    public LocalDevConfig(final TemplateEngine templateEngine) throws IOException {
+    @SneakyThrows
+    public LocalDevConfig(final TemplateEngine templateEngine) {
         final ClassPathResource applicationYml = new ClassPathResource("application.yml");
         System.out.println("applicationYml: " + applicationYml.getPath());
         if (applicationYml.isFile()) {

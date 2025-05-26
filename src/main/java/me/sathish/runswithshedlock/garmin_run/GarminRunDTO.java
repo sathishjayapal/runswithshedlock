@@ -1,6 +1,5 @@
 package me.sathish.runswithshedlock.garmin_run;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +33,6 @@ public class GarminRunDTO {
     @Size(max = 255)
     private String maxHeartRate;
 
-    @NotNull
     private Long runner;
 
 }

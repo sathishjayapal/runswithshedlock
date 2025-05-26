@@ -23,7 +23,7 @@
                 <div th:replace="~{fragments/forms::inputRow(object='garminRun', field='elapsedTime')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='garminRun', field='distance')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='garminRun', field='maxHeartRate')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='garminRun', field='runner', required=true, type='select')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='garminRun', field='runner', type='select')}" />
                 <input type="submit" th:value="#{garminRun.edit.headline}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 mt-6" />
             </form>
         </div>

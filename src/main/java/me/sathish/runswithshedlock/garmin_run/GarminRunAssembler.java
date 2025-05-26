@@ -19,7 +19,9 @@ public class GarminRunAssembler implements SimpleRepresentationModelAssembler<Ga
     public void addLinks(final EntityModel<GarminRunDTO> entityModel) {
         entityModel.add(linkTo(methodOn(GarminRunResource.class).getGarminRun(entityModel.getContent().getId())).withSelfRel());
         entityModel.add(linkTo(methodOn(GarminRunResource.class).getAllGarminRuns(null, null)).withRel(IanaLinkRelations.COLLECTION));
-        entityModel.add(linkTo(methodOn(RunnerResource.class).getRunner(entityModel.getContent().getRunner())).withRel("runner"));
+        if (entityModel.getContent().getRunner() != null) {
+            entityModel.add(linkTo(methodOn(RunnerResource.class).getRunner(entityModel.getContent().getRunner())).withRel("runner"));
+        }
     }
 
     @Override

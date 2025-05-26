@@ -30,6 +30,9 @@ error:
       5xx: ERROR
     http-statuses:
       org.springframework.security.authorization.AuthorizationDeniedException: unauthorized
+    codes:
+      RunnerUsernameUnique: RUNNER_USERNAME_UNIQUE
+      RunnerEmailUnique: RUNNER_EMAIL_UNIQUE
 management:
   endpoints:
     web:

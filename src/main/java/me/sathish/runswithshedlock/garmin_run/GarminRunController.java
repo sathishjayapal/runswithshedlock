@@ -39,7 +39,7 @@ public class GarminRunController {
     public void prepareContext(final Model model) {
         model.addAttribute("runnerValues", runnerRepository.findAll(Sort.by("id"))
                 .stream()
-                .collect(CustomCollectors.toSortedMap(Runner::getId, Runner::getId)));
+                .collect(CustomCollectors.toSortedMap(Runner::getId, Runner::getUsername)));
     }
 
     @GetMapping

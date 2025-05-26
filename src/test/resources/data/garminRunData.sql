@@ -8,7 +8,6 @@ INSERT INTO garmin_run_shedlock (
     elapsed_time,
     distance,
     max_heart_rate,
-    runner_id,
     date_created,
     last_updated
 ) VALUES (
@@ -21,7 +20,6 @@ INSERT INTO garmin_run_shedlock (
     'Sed diam voluptua.',
     'Consetetur sadipscing.',
     'Et ea rebum.',
-    1100,
     '2024-09-02 14:30:00',
     '2024-09-02 14:30:00'
 );
@@ -36,7 +34,6 @@ INSERT INTO garmin_run_shedlock (
     elapsed_time,
     distance,
     max_heart_rate,
-    runner_id,
     date_created,
     last_updated
 ) VALUES (
@@ -49,7 +46,6 @@ INSERT INTO garmin_run_shedlock (
     'At vero eos.',
     'Sed diam nonumy.',
     'Eget est lorem.',
-    1101,
     '2024-09-03 14:30:00',
     '2024-09-03 14:30:00'
 );

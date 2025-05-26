@@ -64,7 +64,7 @@ public class GarminRun {
     private String maxHeartRate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "runner_id", nullable = false)
+    @JoinColumn(name = "runner_id")
     private Runner runner;
 
     @CreatedDate

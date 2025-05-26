@@ -14,7 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 public class GarminRunResourceTest extends BaseIT {
 
     @Test
-    @Sql({"/data/runnerData.sql", "/data/garminRunData.sql"})
+    @Sql("/data/garminRunData.sql")
     void getAllGarminRuns_success() {
         RestAssured
                 .given()
@@ -29,7 +29,7 @@ public class GarminRunResourceTest extends BaseIT {
     }
 
     @Test
-    @Sql({"/data/runnerData.sql", "/data/garminRunData.sql"})
+    @Sql("/data/garminRunData.sql")
     void getAllGarminRuns_filtered() {
         RestAssured
                 .given()
@@ -43,7 +43,7 @@ public class GarminRunResourceTest extends BaseIT {
     }
 
     @Test
-    @Sql({"/data/runnerData.sql", "/data/garminRunData.sql"})
+    @Sql("/data/garminRunData.sql")
     void getGarminRun_success() {
         RestAssured
                 .given()
@@ -69,7 +69,6 @@ public class GarminRunResourceTest extends BaseIT {
     }
 
     @Test
-    @Sql("/data/runnerData.sql")
     void createGarminRun_success() {
         RestAssured
                 .given()
@@ -84,7 +83,7 @@ public class GarminRunResourceTest extends BaseIT {
     }
 
     @Test
-    @Sql({"/data/runnerData.sql", "/data/garminRunData.sql"})
+    @Sql("/data/garminRunData.sql")
     void updateGarminRun_success() {
         RestAssured
                 .given()
@@ -101,7 +100,7 @@ public class GarminRunResourceTest extends BaseIT {
     }
 
     @Test
-    @Sql({"/data/runnerData.sql", "/data/garminRunData.sql"})
+    @Sql("/data/garminRunData.sql")
     void deleteGarminRun_success() {
         RestAssured
                 .given()

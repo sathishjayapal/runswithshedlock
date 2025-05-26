@@ -14,9 +14,10 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UsersecurityUserDetailsService implements UserDetailsService {
+public class HttpUserDetailsService implements UserDetailsService {
     private final RunnerRepository runnerRepository;
-    public UsersecurityUserDetailsService(RunnerRepository runnerRepository) {
+
+    public HttpUserDetailsService(RunnerRepository runnerRepository) {
         this.runnerRepository = runnerRepository;
     }
 
@@ -24,26 +25,11 @@ public class UsersecurityUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         final List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(UserRoles.ADMIN));
         final List<SimpleGrantedAuthority> authoritiesRoles = List.of(new SimpleGrantedAuthority(UserRoles.USER));
-       final Runner runner = runnerRepository.findByEmail(email);
-    if (runner != null) {
-        return new UserDetails() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return authoritiesRoles;
-            }
-
-            @Override
-            public String getPassword() {
-                return runner.getHash();
-            }
-
-            @Override
-            public String getUsername() {
-                return runner.getUsername();
-            }
-        };
-        }else
-        throw new UsernameNotFoundException("User with email" + email + " not found");
+        final Runner runner = runnerRepository.findByEmail(email);
+        if (runner != null) {
+            return runner;
+        } else
+            throw new UsernameNotFoundException("User with email" + email + " not found");
     }
 
 }

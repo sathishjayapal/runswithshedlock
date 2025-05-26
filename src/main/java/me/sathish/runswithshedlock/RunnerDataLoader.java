@@ -25,7 +25,9 @@ public class RunnerDataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if (runnerRepository.count() == 0) {
             final List<SimpleGrantedAuthority> authoritiesRoles = List.of(new SimpleGrantedAuthority(UserRoles.USER));
-            Runner runner = new Runner("sathish",passwordEncoder.encode("password"),authoritiesRoles);
+            Runner runner = new Runner();
+            runner.setUsername("sathish");
+            runner.setHash(passwordEncoder.encode("password"));
             runner.setEmail("sathishk.dot@gmail.com");
             runnerRepository.saveAndFlush(runner);
         }

@@ -37,7 +37,7 @@ public class RunnerService {
     }
 
     public Long create(final RunnerDTO runnerDTO) {
-        final Runner runner = new Runner(runnerDTO.getUsername(),runnerDTO.getHash(), List.of(new SimpleGrantedAuthority(UserRoles.USER)));
+        final Runner runner = new Runner();
         mapToEntity(runnerDTO, runner);
         return runnerRepository.save(runner).getId();
     }

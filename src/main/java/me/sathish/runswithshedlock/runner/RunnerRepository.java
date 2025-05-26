@@ -9,4 +9,5 @@ public interface RunnerRepository extends JpaRepository<Runner, Long> {
 
     boolean existsByEmailIgnoreCase(String email);
 
+    Runner findByEmail(String email);
 }

@@ -3,9 +3,11 @@ package me.sathish.runswithshedlock.runner;
 import java.util.List;
 import me.sathish.runswithshedlock.garmin_run.GarminRun;
 import me.sathish.runswithshedlock.garmin_run.GarminRunRepository;
+import me.sathish.runswithshedlock.security.UserRoles;
 import me.sathish.runswithshedlock.util.NotFoundException;
 import me.sathish.runswithshedlock.util.ReferencedWarning;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 
@@ -35,7 +37,7 @@ public class RunnerService {
     }
 
     public Long create(final RunnerDTO runnerDTO) {
-        final Runner runner = new Runner();
+        final Runner runner = new Runner(runnerDTO.getUsername(),runnerDTO.getHash(), List.of(new SimpleGrantedAuthority(UserRoles.USER)));
         mapToEntity(runnerDTO, runner);
         return runnerRepository.save(runner).getId();
     }

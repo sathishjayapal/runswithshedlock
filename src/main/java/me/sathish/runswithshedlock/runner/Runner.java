@@ -9,20 +9,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import me.sathish.runswithshedlock.garmin_run.GarminRun;
+import me.sathish.runswithshedlock.security.UserRoles;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public class Runner {
+public class Runner extends User {
 
     @Id
     @Column(nullable = false, updatable = false)
@@ -58,4 +64,13 @@ public class Runner {
     @Column(nullable = false)
     private OffsetDateTime lastUpdated;
 
+    public Runner(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
+    }
+    public Runner() {
+        super("sathish","pass",List.of(new SimpleGrantedAuthority(UserRoles.USER)));
+    }
+    public Runner(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+    }
 }

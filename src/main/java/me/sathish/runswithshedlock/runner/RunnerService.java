@@ -55,13 +55,23 @@ public class RunnerService {
         runnerDTO.setId(runner.getId());
         runnerDTO.setUsername(runner.getUsername());
         runnerDTO.setEmail(runner.getEmail());
+        runnerDTO.setHash(runner.getHash());
         return runnerDTO;
     }
 
     private Runner mapToEntity(final RunnerDTO runnerDTO, final Runner runner) {
         runner.setUsername(runnerDTO.getUsername());
         runner.setEmail(runnerDTO.getEmail());
+        runner.setHash(runnerDTO.getHash());
         return runner;
+    }
+
+    public boolean usernameExists(final String username) {
+        return runnerRepository.existsByUsernameIgnoreCase(username);
+    }
+
+    public boolean emailExists(final String email) {
+        return runnerRepository.existsByEmailIgnoreCase(email);
     }
 
     public ReferencedWarning getReferencedWarning(final Long id) {

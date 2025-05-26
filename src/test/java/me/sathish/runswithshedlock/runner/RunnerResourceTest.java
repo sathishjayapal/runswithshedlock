@@ -69,6 +69,22 @@ public class RunnerResourceTest extends BaseIT {
     }
 
     @Test
+    void createRunner_missingField() {
+        RestAssured
+                .given()
+                    .accept(ContentType.JSON)
+                    .contentType(ContentType.JSON)
+                    .body(readResource("/requests/runnerDTORequest_missingField.json"))
+                .when()
+                    .post("/api/runners")
+                .then()
+                    .statusCode(HttpStatus.BAD_REQUEST.value())
+                    .body("code", Matchers.equalTo("VALIDATION_FAILED"))
+                    .body("fieldErrors.get(0).property", Matchers.equalTo("username"))
+                    .body("fieldErrors.get(0).code", Matchers.equalTo("REQUIRED_NOT_NULL"));
+    }
+
+    @Test
     @Sql("/data/runnerData.sql")
     void updateRunner_success() {
         RestAssured

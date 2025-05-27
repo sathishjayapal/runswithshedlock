@@ -1,4 +1,10 @@
 spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
   datasource:
     url: ${garmindb}
     username: ${darmindb_user}
@@ -45,3 +51,8 @@ springdoc:
   pathsToMatch: /home, /api/**
 server:
   port: 9080
+
+garminrun-event:
+  garmin-exchange: garminrun-event-exchange
+  garmin-newrun-queue: garminrun-newrun-queue
+  garmin-error-queue: garminrun-error-queue

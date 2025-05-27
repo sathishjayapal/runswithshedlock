@@ -1,5 +1,6 @@
 package me.sathish.runswithshedlock.garmin_run;
 
+import jakarta.transaction.Transactional;
 import me.sathish.runswithshedlock.runner.Runner;
 import me.sathish.runswithshedlock.runner.RunnerRepository;
 import me.sathish.runswithshedlock.util.NotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@Transactional
 public class GarminRunService {
 
     private final GarminRunRepository garminRunRepository;

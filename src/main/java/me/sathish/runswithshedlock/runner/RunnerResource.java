@@ -11,6 +11,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,16 +21,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping(value = "/api/runners", produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("hasAuthority('ROLE_USER')")
 public class RunnerResource {
 
     private final RunnerService runnerService;
     private final RunnerAssembler runnerAssembler;
 
     public RunnerResource(final RunnerService runnerService,
-            final RunnerAssembler runnerAssembler) {
+                          final RunnerAssembler runnerAssembler) {
         this.runnerService = runnerService;
         this.runnerAssembler = runnerAssembler;
     }
@@ -75,3 +76,4 @@ public class RunnerResource {
     }
 
 }
+

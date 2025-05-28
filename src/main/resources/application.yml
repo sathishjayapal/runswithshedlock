@@ -39,6 +39,7 @@ error:
     codes:
       RunnerUsernameUnique: RUNNER_USERNAME_UNIQUE
       RunnerEmailUnique: RUNNER_EMAIL_UNIQUE
+      RunEventRunIdUnique: RUN_EVENT_RUN_ID_UNIQUE
 management:
   endpoints:
     web:

@@ -26,8 +26,20 @@ CREATE TABLE runner_shedlock (
     CONSTRAINT runner_shedlock_pkey PRIMARY KEY (id)
 );
 
+CREATE TABLE run_event_shedlock (
+    id BIGINT NOT NULL,
+    run_id TEXT NOT NULL,
+    run_event_type TEXT NOT NULL,
+    run_information TEXT NOT NULL,
+    date_created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    last_updated TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    CONSTRAINT run_event_shedlock_pkey PRIMARY KEY (id)
+);
+
 ALTER TABLE garmin_run_shedlock ADD CONSTRAINT fk_garmin_run_runner_id FOREIGN KEY (runner_id) REFERENCES runner_shedlock (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE runner_shedlock ADD CONSTRAINT unique_runner_username UNIQUE (username);
 
 ALTER TABLE runner_shedlock ADD CONSTRAINT unique_runner_email UNIQUE (email);
+
+ALTER TABLE run_event_shedlock ADD CONSTRAINT unique_run_event_run_id UNIQUE (run_id);

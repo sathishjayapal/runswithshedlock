@@ -9,6 +9,7 @@ import java.util.HashMap;
 import lombok.SneakyThrows;
 import me.sathish.runswithshedlock.RunswithshedlockApplication;
 import me.sathish.runswithshedlock.garmin_run.GarminRunRepository;
+import me.sathish.runswithshedlock.run_event.RunEventRepository;
 import me.sathish.runswithshedlock.runner.RunnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,6 +56,9 @@ public abstract class BaseIT {
 
     @Autowired
     public RunnerRepository runnerRepository;
+
+    @Autowired
+    public RunEventRepository runEventRepository;
 
     @PostConstruct
     public void initRestAssured() {

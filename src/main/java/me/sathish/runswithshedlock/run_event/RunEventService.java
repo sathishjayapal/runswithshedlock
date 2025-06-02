@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RunEventService {
-
+    private final RunEventPublisher runEventPublisher;
     private final RunEventRepository runEventRepository;
 
-    public RunEventService(final RunEventRepository runEventRepository) {
+    public RunEventService(RunEventPublisher runEventPublisher, final RunEventRepository runEventRepository) {
+        this.runEventPublisher = runEventPublisher;
         this.runEventRepository = runEventRepository;
     }
 
@@ -45,7 +46,8 @@ public class RunEventService {
     public Long create(final RunEventDTO runEventDTO) {
         final RunEvent runEvent = new RunEvent();
         mapToEntity(runEventDTO, runEvent);
-        return runEventRepository.save(runEvent).getId();
+        final RunEvent runEventSaved= runEventRepository.save(runEvent);
+        return runEventSaved.getId();
     }
 
     public void update(final Long id, final RunEventDTO runEventDTO) {

@@ -85,6 +85,7 @@ public class GarminRunResource {
     public ResponseEntity<EntityModel<SimpleValue<Long>>> createGarminRun(
             @RequestBody @Valid final GarminRunDTO garminRunDTO) {
         final Long createdId = garminRunService.create(garminRunDTO);
+
         return new ResponseEntity<>(garminRunAssembler.toSimpleModel(createdId), HttpStatus.CREATED);
     }
 

@@ -1,6 +1,7 @@
 package me.sathish.runswithshedlock.garmin_run;
 
 import jakarta.transaction.Transactional;
+import me.sathish.runswithshedlock.run_event.RunEventPublisher;
 import me.sathish.runswithshedlock.runner.Runner;
 import me.sathish.runswithshedlock.runner.RunnerRepository;
 import me.sathish.runswithshedlock.util.NotFoundException;
@@ -16,11 +17,13 @@ public class GarminRunService {
 
     private final GarminRunRepository garminRunRepository;
     private final RunnerRepository runnerRepository;
+    private final RunEventPublisher runEventPublisher;
 
     public GarminRunService(final GarminRunRepository garminRunRepository,
-            final RunnerRepository runnerRepository) {
+                            final RunnerRepository runnerRepository, RunEventPublisher runEventPublisher) {
         this.garminRunRepository = garminRunRepository;
         this.runnerRepository = runnerRepository;
+        this.runEventPublisher = runEventPublisher;
     }
 
     public Page<GarminRunDTO> findAll(final String filter, final Pageable pageable) {
@@ -52,7 +55,10 @@ public class GarminRunService {
     public Long create(final GarminRunDTO garminRunDTO) {
         final GarminRun garminRun = new GarminRun();
         mapToEntity(garminRunDTO, garminRun);
-        return garminRunRepository.save(garminRun).getId();
+        final GarminRun savedGarminRun = garminRunRepository.save(garminRun);
+        mapToDTO(savedGarminRun, garminRunDTO);
+        runEventPublisher.publishGarminRun(garminRunDTO);
+        return savedGarminRun.getId();
     }
 
     public void update(final Long id, final GarminRunDTO garminRunDTO) {

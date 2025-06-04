@@ -10,8 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ConfigurationPropertiesScan
 @EnableScheduling
 public class RunswithshedlockApplication {
-
-    public static void main(final String[] args) {
+    public static void main(final String[] args)
+    {
         SpringApplication.run(RunswithshedlockApplication.class, args);
     }
 

@@ -1,5 +1,6 @@
 package me.sathish.runswithshedlock.garmin_run;
 
+import com.github.javafaker.Faker;
 import jakarta.transaction.Transactional;
 import me.sathish.runswithshedlock.run_event.RunEventPublisher;
 import me.sathish.runswithshedlock.runner.Runner;
@@ -9,6 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 
 @Service
@@ -55,6 +60,22 @@ public class GarminRunService {
     public Long create(final GarminRunDTO garminRunDTO) {
         final GarminRun garminRun = new GarminRun();
         mapToEntity(garminRunDTO, garminRun);
+        for (int i = 0; i < 10; i++) {
+            Faker faker = new Faker();
+            garminRunDTO.setActivityID(faker.number().numberBetween(1, 1000));
+            garminRunDTO.setActivityName(faker.lorem().characters(5, 25));
+            garminRunDTO.setActivityType(faker.lorem().characters(5, 25));
+            Date fakerDate = faker.date().between(new Date(2025, 01, 01), new Date(2025, 12, 31));
+            garminRunDTO.setActivityDate(LocalDate.of(fakerDate.getYear(), fakerDate.getMonth() + 1, fakerDate.getDate())
+                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            garminRunDTO.setActivityDescription(faker.lorem().sentence());
+            garminRunDTO.setElapsedTime(faker.number().digits(5));
+            garminRunDTO.setDistance(faker.lorem().characters(5, 25));
+            garminRunDTO.setMaxHeartRate(faker.lorem().characters(140, 175));
+            mapToEntity(garminRunDTO, garminRun);
+            garminRunRepository.save(garminRun);
+            runEventPublisher.publishGarminRun(garminRunDTO);
+        }
         final GarminRun savedGarminRun = garminRunRepository.save(garminRun);
         mapToDTO(savedGarminRun, garminRunDTO);
         runEventPublisher.publishGarminRun(garminRunDTO);

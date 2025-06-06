@@ -56,3 +56,6 @@ garminrun-event:
   garmin-exchange: garminrun-event-exchange
   garmin-newrun-queue: garminrun-newrun-queue
   garmin-error-queue: garminrun-error-queue
+runswithshedlock:
+  processRunEvents:
+    fixedRate: 10000

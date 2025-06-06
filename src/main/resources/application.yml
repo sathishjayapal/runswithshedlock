@@ -4,7 +4,6 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USERNAME:guest}
     password: ${RABBITMQ_PASSWORD:guest}
-
   datasource:
     url: ${garmindb}
     username: ${darmindb_user}
@@ -39,6 +38,7 @@ error:
     codes:
       RunnerUsernameUnique: RUNNER_USERNAME_UNIQUE
       RunnerEmailUnique: RUNNER_EMAIL_UNIQUE
+      RunEventRunIdUnique: RUN_EVENT_RUN_ID_UNIQUE
 management:
   endpoints:
     web:
@@ -51,10 +51,9 @@ springdoc:
   pathsToMatch: /home, /api/**
 server:
   port: 9080
-
 garminrun-event:
   garmin-exchange: garminrun-event-exchange
-  garmin-newrun-queue: garminrun-newrun-queue
+  garmin-newrun-queue: garminrun-run-queue
   garmin-error-queue: garminrun-error-queue
 runswithshedlock:
   processRunEvents:

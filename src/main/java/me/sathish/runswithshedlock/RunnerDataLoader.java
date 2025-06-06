@@ -31,7 +31,7 @@ public class RunnerDataLoader implements ApplicationRunner {
             final List<SimpleGrantedAuthority> authoritiesRoles = List.of(new SimpleGrantedAuthority(UserRoles.USER));
             Runner runner = new Runner();
             runner.setUsername(environment.getProperty("loginusername"));
-            runner.setHash(passwordEncoder.encode("password"));
+            runner.setHash(passwordEncoder.encode("loginpassword"));
             runner.setEmail("sathishk.dot@gmail.com");
             runnerRepository.saveAndFlush(runner);
         }

@@ -1,4 +1,4 @@
-package me.sathish.runswithshedlock.garmin_run;
+package me.sathish.runswithshedlock.run_event;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -17,7 +17,6 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,19 +29,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(value = "/api/garminRuns", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('ROLE_USER')")
-public class GarminRunResource {
+@RequestMapping(value = "/api/runEvents", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RunEventResource {
 
-    private final GarminRunService garminRunService;
-    private final GarminRunAssembler garminRunAssembler;
-    private final PagedResourcesAssembler<GarminRunDTO> pagedResourcesAssembler;
+    private final RunEventService runEventService;
+    private final RunEventAssembler runEventAssembler;
+    private final PagedResourcesAssembler<RunEventDTO> pagedResourcesAssembler;
 
-    public GarminRunResource(final GarminRunService garminRunService,
-            final GarminRunAssembler garminRunAssembler,
-            final PagedResourcesAssembler<GarminRunDTO> pagedResourcesAssembler) {
-        this.garminRunService = garminRunService;
-        this.garminRunAssembler = garminRunAssembler;
+    public RunEventResource(final RunEventService runEventService,
+            final RunEventAssembler runEventAssembler,
+            final PagedResourcesAssembler<RunEventDTO> pagedResourcesAssembler) {
+        this.runEventService = runEventService;
+        this.runEventAssembler = runEventAssembler;
         this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
@@ -66,41 +64,40 @@ public class GarminRunResource {
             }
     )
     @GetMapping
-    public ResponseEntity<PagedModel<EntityModel<GarminRunDTO>>> getAllGarminRuns(
+    public ResponseEntity<PagedModel<EntityModel<RunEventDTO>>> getAllRunEvents(
             @RequestParam(name = "filter", required = false) final String filter,
             @Parameter(hidden = true) @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable) {
-        final Page<GarminRunDTO> garminRunDTOs = garminRunService.findAll(filter, pageable);
-        return ResponseEntity.ok(pagedResourcesAssembler.toModel(garminRunDTOs, garminRunAssembler));
+        final Page<RunEventDTO> runEventDTOs = runEventService.findAll(filter, pageable);
+        return ResponseEntity.ok(pagedResourcesAssembler.toModel(runEventDTOs, runEventAssembler));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<GarminRunDTO>> getGarminRun(
+    public ResponseEntity<EntityModel<RunEventDTO>> getRunEvent(
             @PathVariable(name = "id") final Long id) {
-        final GarminRunDTO garminRunDTO = garminRunService.get(id);
-        return ResponseEntity.ok(garminRunAssembler.toModel(garminRunDTO));
+        final RunEventDTO runEventDTO = runEventService.get(id);
+        return ResponseEntity.ok(runEventAssembler.toModel(runEventDTO));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<EntityModel<SimpleValue<Long>>> createGarminRun(
-            @RequestBody @Valid final GarminRunDTO garminRunDTO) {
-        final Long createdId = garminRunService.create(garminRunDTO);
-
-        return new ResponseEntity<>(garminRunAssembler.toSimpleModel(createdId), HttpStatus.CREATED);
+    public ResponseEntity<EntityModel<SimpleValue<Long>>> createRunEvent(
+            @RequestBody @Valid final RunEventDTO runEventDTO) {
+        final Long createdId = runEventService.create(runEventDTO);
+        return new ResponseEntity<>(runEventAssembler.toSimpleModel(createdId), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EntityModel<SimpleValue<Long>>> updateGarminRun(
+    public ResponseEntity<EntityModel<SimpleValue<Long>>> updateRunEvent(
             @PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final GarminRunDTO garminRunDTO) {
-        garminRunService.update(id, garminRunDTO);
-        return ResponseEntity.ok(garminRunAssembler.toSimpleModel(id));
+            @RequestBody @Valid final RunEventDTO runEventDTO) {
+        runEventService.update(id, runEventDTO);
+        return ResponseEntity.ok(runEventAssembler.toSimpleModel(id));
     }
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteGarminRun(@PathVariable(name = "id") final Long id) {
-        garminRunService.delete(id);
+    public ResponseEntity<Void> deleteRunEvent(@PathVariable(name = "id") final Long id) {
+        runEventService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

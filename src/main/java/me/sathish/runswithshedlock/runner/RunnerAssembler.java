@@ -10,19 +10,21 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.server.SimpleRepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class RunnerAssembler implements SimpleRepresentationModelAssembler<RunnerDTO> {
 
     @Override
     public void addLinks(final EntityModel<RunnerDTO> entityModel) {
-        entityModel.add(linkTo(methodOn(RunnerResource.class).getRunner(entityModel.getContent().getId())).withSelfRel());
+        entityModel.add(linkTo(methodOn(RunnerResource.class)
+                        .getRunner(entityModel.getContent().getId()))
+                .withSelfRel());
         entityModel.add(linkTo(methodOn(RunnerResource.class).getAllRunners()).withRel(IanaLinkRelations.COLLECTION));
     }
 
     @Override
     public void addLinks(final CollectionModel<EntityModel<RunnerDTO>> collectionModel) {
-        collectionModel.add(linkTo(methodOn(RunnerResource.class).getAllRunners()).withSelfRel());
+        collectionModel.add(
+                linkTo(methodOn(RunnerResource.class).getAllRunners()).withSelfRel());
     }
 
     public EntityModel<SimpleValue<Long>> toSimpleModel(final Long id) {
@@ -30,5 +32,4 @@ public class RunnerAssembler implements SimpleRepresentationModelAssembler<Runne
         simpleModel.add(linkTo(methodOn(RunnerResource.class).getRunner(id)).withSelfRel());
         return simpleModel;
     }
-
 }

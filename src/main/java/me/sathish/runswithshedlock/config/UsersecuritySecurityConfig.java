@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
-
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class UsersecuritySecurityConfig {
@@ -25,8 +24,8 @@ public class UsersecuritySecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            final AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -35,16 +34,12 @@ public class UsersecuritySecurityConfig {
         return http.cors(withDefaults())
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/home", "/api/**", "/actuator/**"))
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-                .formLogin(form -> form
-                    .loginPage("/login")
-                    .usernameParameter("login")
-                    .failureUrl("/login?loginError=true"))
-                .logout(logout -> logout
-                    .logoutSuccessUrl("/?logoutSuccess=true")
-                    .deleteCookies("SESSION"))
-                .exceptionHandling(exception -> exception
-                    .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true")))
+                .formLogin(form ->
+                        form.loginPage("/login").usernameParameter("login").failureUrl("/login?loginError=true"))
+                .logout(logout ->
+                        logout.logoutSuccessUrl("/?logoutSuccess=true").deleteCookies("SESSION"))
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(
+                        new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true")))
                 .build();
     }
-
 }

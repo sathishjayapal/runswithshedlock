@@ -14,8 +14,9 @@ public class RunEventPublisher {
         this.rabbitTemplate = rabbitTemplate;
         this.applicationProperties = applicationProperties;
     }
-    public void publishGarminRun(GarminRunDTO garminRunDTO) {
-        rabbitTemplate.convertAndSend(applicationProperties.garminExchange(), applicationProperties.garminNewRunQueue(), garminRunDTO);
-    }
 
+    public void publishGarminRun(GarminRunDTO garminRunDTO) {
+        rabbitTemplate.convertAndSend(
+                applicationProperties.garminExchange(), applicationProperties.garminNewRunQueue(), garminRunDTO);
+    }
 }

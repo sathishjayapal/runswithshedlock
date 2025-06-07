@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class RunEventService {
     private final RunEventPublisher runEventPublisher;
@@ -30,15 +29,17 @@ public class RunEventService {
         } else {
             page = runEventRepository.findAll(pageable);
         }
-        return new PageImpl<>(page.getContent()
-                .stream()
-                .map(runEvent -> mapToDTO(runEvent, new RunEventDTO()))
-                .toList(),
-                pageable, page.getTotalElements());
+        return new PageImpl<>(
+                page.getContent().stream()
+                        .map(runEvent -> mapToDTO(runEvent, new RunEventDTO()))
+                        .toList(),
+                pageable,
+                page.getTotalElements());
     }
 
     public RunEventDTO get(final Long id) {
-        return runEventRepository.findById(id)
+        return runEventRepository
+                .findById(id)
                 .map(runEvent -> mapToDTO(runEvent, new RunEventDTO()))
                 .orElseThrow(NotFoundException::new);
     }
@@ -46,13 +47,12 @@ public class RunEventService {
     public Long create(final RunEventDTO runEventDTO) {
         final RunEvent runEvent = new RunEvent();
         mapToEntity(runEventDTO, runEvent);
-        final RunEvent runEventSaved= runEventRepository.save(runEvent);
+        final RunEvent runEventSaved = runEventRepository.save(runEvent);
         return runEventSaved.getId();
     }
 
     public void update(final Long id, final RunEventDTO runEventDTO) {
-        final RunEvent runEvent = runEventRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
+        final RunEvent runEvent = runEventRepository.findById(id).orElseThrow(NotFoundException::new);
         mapToEntity(runEventDTO, runEvent);
         runEventRepository.save(runEvent);
     }
@@ -79,5 +79,4 @@ public class RunEventService {
     public boolean runIdExists(final String runId) {
         return runEventRepository.existsByRunId(runId);
     }
-
 }

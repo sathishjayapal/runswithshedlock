@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 @Controller
 @RequestMapping("/garminRuns")
 @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -31,21 +30,22 @@ public class GarminRunController {
     private final GarminRunService garminRunService;
     private final RunnerRepository runnerRepository;
 
-    public GarminRunController(final GarminRunService garminRunService,
-            final RunnerRepository runnerRepository) {
+    public GarminRunController(final GarminRunService garminRunService, final RunnerRepository runnerRepository) {
         this.garminRunService = garminRunService;
         this.runnerRepository = runnerRepository;
     }
 
     @ModelAttribute
     public void prepareContext(final Model model) {
-        model.addAttribute("runnerValues", runnerRepository.findAll(Sort.by("id"))
-                .stream()
-                .collect(CustomCollectors.toSortedMap(Runner::getId, Runner::getUsername)));
+        model.addAttribute(
+                "runnerValues",
+                runnerRepository.findAll(Sort.by("id")).stream()
+                        .collect(CustomCollectors.toSortedMap(Runner::getId, Runner::getUsername)));
     }
 
     @GetMapping
-    public String list(@RequestParam(name = "filter", required = false) final String filter,
+    public String list(
+            @RequestParam(name = "filter", required = false) final String filter,
             @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
             final Model model) {
         final Page<GarminRunDTO> garminRuns = garminRunService.findAll(filter, pageable);
@@ -61,8 +61,10 @@ public class GarminRunController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("garminRun") @Valid final GarminRunDTO garminRunDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+    public String add(
+            @ModelAttribute("garminRun") @Valid final GarminRunDTO garminRunDTO,
+            final BindingResult bindingResult,
+            final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "garminRun/add";
         }
@@ -78,9 +80,11 @@ public class GarminRunController {
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@PathVariable(name = "id") final Long id,
+    public String edit(
+            @PathVariable(name = "id") final Long id,
             @ModelAttribute("garminRun") @Valid final GarminRunDTO garminRunDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+            final BindingResult bindingResult,
+            final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "garminRun/edit";
         }
@@ -90,11 +94,9 @@ public class GarminRunController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable(name = "id") final Long id,
-            final RedirectAttributes redirectAttributes) {
+    public String delete(@PathVariable(name = "id") final Long id, final RedirectAttributes redirectAttributes) {
         garminRunService.delete(id);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("garminRun.delete.success"));
         return "redirect:/garminRuns";
     }
-
 }

@@ -29,8 +29,7 @@ public class RunnerResource {
     private final RunnerService runnerService;
     private final RunnerAssembler runnerAssembler;
 
-    public RunnerResource(final RunnerService runnerService,
-                          final RunnerAssembler runnerAssembler) {
+    public RunnerResource(final RunnerService runnerService, final RunnerAssembler runnerAssembler) {
         this.runnerService = runnerService;
         this.runnerAssembler = runnerAssembler;
     }
@@ -42,24 +41,21 @@ public class RunnerResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<RunnerDTO>> getRunner(
-            @PathVariable(name = "id") final Long id) {
+    public ResponseEntity<EntityModel<RunnerDTO>> getRunner(@PathVariable(name = "id") final Long id) {
         final RunnerDTO runnerDTO = runnerService.get(id);
         return ResponseEntity.ok(runnerAssembler.toModel(runnerDTO));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<EntityModel<SimpleValue<Long>>> createRunner(
-            @RequestBody @Valid final RunnerDTO runnerDTO) {
+    public ResponseEntity<EntityModel<SimpleValue<Long>>> createRunner(@RequestBody @Valid final RunnerDTO runnerDTO) {
         final Long createdId = runnerService.create(runnerDTO);
         return new ResponseEntity<>(runnerAssembler.toSimpleModel(createdId), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EntityModel<SimpleValue<Long>>> updateRunner(
-            @PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final RunnerDTO runnerDTO) {
+            @PathVariable(name = "id") final Long id, @RequestBody @Valid final RunnerDTO runnerDTO) {
         runnerService.update(id, runnerDTO);
         return ResponseEntity.ok(runnerAssembler.toSimpleModel(id));
     }
@@ -74,6 +70,4 @@ public class RunnerResource {
         runnerService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
-

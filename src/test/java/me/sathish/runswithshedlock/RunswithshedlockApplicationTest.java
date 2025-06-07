@@ -7,34 +7,29 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-
 public class RunswithshedlockApplicationTest extends BaseIT {
 
     @Test
-    void contextLoads() {
-    }
+    void contextLoads() {}
 
     @Test
     void springSessionWorks() {
-        final String sessionId = RestAssured
-                .given()
-                    .accept(ContentType.JSON)
+        final String sessionId = RestAssured.given()
+                .accept(ContentType.JSON)
                 .when()
-                    .get("/sessionCreate")
+                .get("/sessionCreate")
                 .then()
-                    .statusCode(HttpStatus.OK.value())
+                .statusCode(HttpStatus.OK.value())
                 .extract()
                 .sessionId();
-        RestAssured
-                .given()
-                    .sessionId(sessionId)
-                    .accept(ContentType.JSON)
+        RestAssured.given()
+                .sessionId(sessionId)
+                .accept(ContentType.JSON)
                 .when()
-                    .get("/sessionRead")
+                .get("/sessionRead")
                 .then()
-                    .statusCode(HttpStatus.OK.value())
-                    .body(Matchers.equalTo("test"));
+                .statusCode(HttpStatus.OK.value())
+                .body(Matchers.equalTo("test"));
         ;
     }
-
 }

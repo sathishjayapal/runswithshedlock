@@ -1,12 +1,12 @@
 package me.sathish.runswithshedlock.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import me.sathish.runswithshedlock.util.ApplicationProperties;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +32,8 @@ public class RabbitMQConfiguration {
 
     @Bean
     Binding newGarminRunBinding() {
-        return BindingBuilder.bind(newGarminRunQueue()).to(garminRunExchange())
+        return BindingBuilder.bind(newGarminRunQueue())
+                .to(garminRunExchange())
                 .with(applicationProperties.garminNewRunQueue());
     }
 
@@ -43,7 +44,8 @@ public class RabbitMQConfiguration {
 
     @Bean
     Binding errorGarminRunBinding() {
-        return BindingBuilder.bind(errorGarminRunQueue()).to(garminRunExchange())
+        return BindingBuilder.bind(errorGarminRunQueue())
+                .to(garminRunExchange())
                 .with(applicationProperties.garminErrorQueue());
     }
 

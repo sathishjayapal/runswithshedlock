@@ -4,7 +4,6 @@ import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
-
 public class RunswithshedlockNamingStrategy extends CamelCaseToUnderscoresNamingStrategy {
 
     private static final String TABLE_SUFFIX = "_shedlock";
@@ -21,5 +20,4 @@ public class RunswithshedlockNamingStrategy extends CamelCaseToUnderscoresNaming
     public Identifier toPhysicalTableName(final Identifier name, final JdbcEnvironment context) {
         return adjustName(super.toPhysicalTableName(name, context));
     }
-
 }

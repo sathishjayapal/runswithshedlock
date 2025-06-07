@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping(value = "/api/runEvents", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RunEventResource {
@@ -36,7 +35,8 @@ public class RunEventResource {
     private final RunEventAssembler runEventAssembler;
     private final PagedResourcesAssembler<RunEventDTO> pagedResourcesAssembler;
 
-    public RunEventResource(final RunEventService runEventService,
+    public RunEventResource(
+            final RunEventService runEventService,
             final RunEventAssembler runEventAssembler,
             final PagedResourcesAssembler<RunEventDTO> pagedResourcesAssembler) {
         this.runEventService = runEventService;
@@ -46,23 +46,10 @@ public class RunEventResource {
 
     @Operation(
             parameters = {
-                    @Parameter(
-                            name = "page",
-                            in = ParameterIn.QUERY,
-                            schema = @Schema(implementation = Integer.class)
-                    ),
-                    @Parameter(
-                            name = "size",
-                            in = ParameterIn.QUERY,
-                            schema = @Schema(implementation = Integer.class)
-                    ),
-                    @Parameter(
-                            name = "sort",
-                            in = ParameterIn.QUERY,
-                            schema = @Schema(implementation = String.class)
-                    )
-            }
-    )
+                @Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(implementation = Integer.class)),
+                @Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(implementation = Integer.class)),
+                @Parameter(name = "sort", in = ParameterIn.QUERY, schema = @Schema(implementation = String.class))
+            })
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<RunEventDTO>>> getAllRunEvents(
             @RequestParam(name = "filter", required = false) final String filter,
@@ -72,8 +59,7 @@ public class RunEventResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<RunEventDTO>> getRunEvent(
-            @PathVariable(name = "id") final Long id) {
+    public ResponseEntity<EntityModel<RunEventDTO>> getRunEvent(@PathVariable(name = "id") final Long id) {
         final RunEventDTO runEventDTO = runEventService.get(id);
         return ResponseEntity.ok(runEventAssembler.toModel(runEventDTO));
     }
@@ -88,8 +74,7 @@ public class RunEventResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<EntityModel<SimpleValue<Long>>> updateRunEvent(
-            @PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final RunEventDTO runEventDTO) {
+            @PathVariable(name = "id") final Long id, @RequestBody @Valid final RunEventDTO runEventDTO) {
         runEventService.update(id, runEventDTO);
         return ResponseEntity.ok(runEventAssembler.toSimpleModel(id));
     }
@@ -100,5 +85,4 @@ public class RunEventResource {
         runEventService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }

@@ -2,6 +2,9 @@ package me.sathish.runswithshedlock.garmin_run;
 
 import com.github.javafaker.Faker;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import me.sathish.runswithshedlock.run_event.RunEventPublisher;
 import me.sathish.runswithshedlock.runner.Runner;
 import me.sathish.runswithshedlock.runner.RunnerRepository;
@@ -11,11 +14,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
-
 @Service
 @Transactional
 public class GarminRunService {
@@ -24,8 +22,10 @@ public class GarminRunService {
     private final RunnerRepository runnerRepository;
     private final RunEventPublisher runEventPublisher;
 
-    public GarminRunService(final GarminRunRepository garminRunRepository,
-                            final RunnerRepository runnerRepository, RunEventPublisher runEventPublisher) {
+    public GarminRunService(
+            final GarminRunRepository garminRunRepository,
+            final RunnerRepository runnerRepository,
+            RunEventPublisher runEventPublisher) {
         this.garminRunRepository = garminRunRepository;
         this.runnerRepository = runnerRepository;
         this.runEventPublisher = runEventPublisher;
@@ -44,15 +44,17 @@ public class GarminRunService {
         } else {
             page = garminRunRepository.findAll(pageable);
         }
-        return new PageImpl<>(page.getContent()
-                .stream()
-                .map(garminRun -> mapToDTO(garminRun, new GarminRunDTO()))
-                .toList(),
-                pageable, page.getTotalElements());
+        return new PageImpl<>(
+                page.getContent().stream()
+                        .map(garminRun -> mapToDTO(garminRun, new GarminRunDTO()))
+                        .toList(),
+                pageable,
+                page.getTotalElements());
     }
 
     public GarminRunDTO get(final Long id) {
-        return garminRunRepository.findById(id)
+        return garminRunRepository
+                .findById(id)
                 .map(garminRun -> mapToDTO(garminRun, new GarminRunDTO()))
                 .orElseThrow(NotFoundException::new);
     }
@@ -66,8 +68,9 @@ public class GarminRunService {
             garminRunDTO.setActivityName(faker.lorem().characters(5, 25));
             garminRunDTO.setActivityType(faker.lorem().characters(5, 25));
             Date fakerDate = faker.date().between(new Date(2025, 01, 01), new Date(2025, 12, 31));
-            garminRunDTO.setActivityDate(LocalDate.of(fakerDate.getYear(), fakerDate.getMonth() + 1, fakerDate.getDate())
-                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            garminRunDTO.setActivityDate(
+                    LocalDate.of(fakerDate.getYear(), fakerDate.getMonth() + 1, fakerDate.getDate())
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             garminRunDTO.setActivityDescription(faker.lorem().sentence());
             garminRunDTO.setElapsedTime(faker.number().digits(5));
             garminRunDTO.setDistance(faker.lorem().characters(5, 25));
@@ -83,8 +86,7 @@ public class GarminRunService {
     }
 
     public void update(final Long id, final GarminRunDTO garminRunDTO) {
-        final GarminRun garminRun = garminRunRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
+        final GarminRun garminRun = garminRunRepository.findById(id).orElseThrow(NotFoundException::new);
         mapToEntity(garminRunDTO, garminRun);
         garminRunRepository.save(garminRun);
     }
@@ -103,7 +105,8 @@ public class GarminRunService {
         garminRunDTO.setElapsedTime(garminRun.getElapsedTime());
         garminRunDTO.setDistance(garminRun.getDistance());
         garminRunDTO.setMaxHeartRate(garminRun.getMaxHeartRate());
-        garminRunDTO.setRunner(garminRun.getRunner() == null ? null : garminRun.getRunner().getId());
+        garminRunDTO.setRunner(
+                garminRun.getRunner() == null ? null : garminRun.getRunner().getId());
         return garminRunDTO;
     }
 
@@ -116,10 +119,12 @@ public class GarminRunService {
         garminRun.setElapsedTime(garminRunDTO.getElapsedTime());
         garminRun.setDistance(garminRunDTO.getDistance());
         garminRun.setMaxHeartRate(garminRunDTO.getMaxHeartRate());
-        final Runner runner = garminRunDTO.getRunner() == null ? null : runnerRepository.findById(garminRunDTO.getRunner())
-                .orElseThrow(() -> new NotFoundException("runner not found"));
+        final Runner runner = garminRunDTO.getRunner() == null
+                ? null
+                : runnerRepository
+                        .findById(garminRunDTO.getRunner())
+                        .orElseThrow(() -> new NotFoundException("runner not found"));
         garminRun.setRunner(runner);
         return garminRun;
     }
-
 }

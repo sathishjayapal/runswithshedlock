@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping(value = "/api/garminRuns", produces = MediaType.APPLICATION_JSON_VALUE)
 @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -38,7 +37,8 @@ public class GarminRunResource {
     private final GarminRunAssembler garminRunAssembler;
     private final PagedResourcesAssembler<GarminRunDTO> pagedResourcesAssembler;
 
-    public GarminRunResource(final GarminRunService garminRunService,
+    public GarminRunResource(
+            final GarminRunService garminRunService,
             final GarminRunAssembler garminRunAssembler,
             final PagedResourcesAssembler<GarminRunDTO> pagedResourcesAssembler) {
         this.garminRunService = garminRunService;
@@ -48,23 +48,10 @@ public class GarminRunResource {
 
     @Operation(
             parameters = {
-                    @Parameter(
-                            name = "page",
-                            in = ParameterIn.QUERY,
-                            schema = @Schema(implementation = Integer.class)
-                    ),
-                    @Parameter(
-                            name = "size",
-                            in = ParameterIn.QUERY,
-                            schema = @Schema(implementation = Integer.class)
-                    ),
-                    @Parameter(
-                            name = "sort",
-                            in = ParameterIn.QUERY,
-                            schema = @Schema(implementation = String.class)
-                    )
-            }
-    )
+                @Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(implementation = Integer.class)),
+                @Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(implementation = Integer.class)),
+                @Parameter(name = "sort", in = ParameterIn.QUERY, schema = @Schema(implementation = String.class))
+            })
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<GarminRunDTO>>> getAllGarminRuns(
             @RequestParam(name = "filter", required = false) final String filter,
@@ -74,8 +61,7 @@ public class GarminRunResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<GarminRunDTO>> getGarminRun(
-            @PathVariable(name = "id") final Long id) {
+    public ResponseEntity<EntityModel<GarminRunDTO>> getGarminRun(@PathVariable(name = "id") final Long id) {
         final GarminRunDTO garminRunDTO = garminRunService.get(id);
         return ResponseEntity.ok(garminRunAssembler.toModel(garminRunDTO));
     }
@@ -91,8 +77,7 @@ public class GarminRunResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<EntityModel<SimpleValue<Long>>> updateGarminRun(
-            @PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final GarminRunDTO garminRunDTO) {
+            @PathVariable(name = "id") final Long id, @RequestBody @Valid final GarminRunDTO garminRunDTO) {
         garminRunService.update(id, garminRunDTO);
         return ResponseEntity.ok(garminRunAssembler.toSimpleModel(id));
     }
@@ -103,5 +88,4 @@ public class GarminRunResource {
         garminRunService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }

@@ -1,12 +1,11 @@
 package me.sathish.runswithshedlock.jobs;
 
-import net.javacrumbs.shedlock.core.LockAssert;
+import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 @Component
 public class ProcessRunEvents {
     private static final Logger logger = LoggerFactory.getLogger(ProcessRunEvents.class);
@@ -17,4 +16,3 @@ public class ProcessRunEvents {
         // Add your event processing logic here
     }
 }
-

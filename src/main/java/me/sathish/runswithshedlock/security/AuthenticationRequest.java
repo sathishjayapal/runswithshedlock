@@ -5,17 +5,13 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class AuthenticationRequest {
 
-    @NotNull
-    @Size(max = 255)
+    @NotNull @Size(max = 255)
     private String login;
 
-    @NotNull
-    @Size(max = 72)
+    @NotNull @Size(max = 72)
     private String password;
-
 }

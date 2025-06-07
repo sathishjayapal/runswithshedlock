@@ -16,16 +16,13 @@ import java.lang.annotation.Target;
 import java.util.Map;
 import org.springframework.web.servlet.HandlerMapping;
 
-
 /**
  * Validate that the runId value isn't taken yet.
  */
-@Target({ FIELD, METHOD, ANNOTATION_TYPE })
+@Target({FIELD, METHOD, ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(
-        validatedBy = RunEventRunIdUnique.RunEventRunIdUniqueValidator.class
-)
+@Constraint(validatedBy = RunEventRunIdUnique.RunEventRunIdUniqueValidator.class)
 public @interface RunEventRunIdUnique {
 
     String message() default "{Exists.runEvent.runId}";
@@ -39,8 +36,7 @@ public @interface RunEventRunIdUnique {
         private final RunEventService runEventService;
         private final HttpServletRequest request;
 
-        public RunEventRunIdUniqueValidator(final RunEventService runEventService,
-                final HttpServletRequest request) {
+        public RunEventRunIdUniqueValidator(final RunEventService runEventService, final HttpServletRequest request) {
             this.runEventService = runEventService;
             this.request = request;
         }
@@ -51,16 +47,17 @@ public @interface RunEventRunIdUnique {
                 // no value present
                 return true;
             }
-            @SuppressWarnings("unchecked") final Map<String, String> pathVariables =
-                    ((Map<String, String>)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
+            @SuppressWarnings("unchecked")
+            final Map<String, String> pathVariables =
+                    ((Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
             final String currentId = pathVariables.get("id");
-            if (currentId != null && value.equalsIgnoreCase(runEventService.get(Long.parseLong(currentId)).getRunId())) {
+            if (currentId != null
+                    && value.equalsIgnoreCase(
+                            runEventService.get(Long.parseLong(currentId)).getRunId())) {
                 // value hasn't changed
                 return true;
             }
             return !runEventService.runIdExists(value);
         }
-
     }
-
 }

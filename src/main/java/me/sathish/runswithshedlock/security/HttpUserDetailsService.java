@@ -1,17 +1,13 @@
 package me.sathish.runswithshedlock.security;
 
-import java.util.Collection;
 import java.util.List;
-
 import me.sathish.runswithshedlock.runner.Runner;
 import me.sathish.runswithshedlock.runner.RunnerRepository;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class HttpUserDetailsService implements UserDetailsService {
@@ -28,8 +24,6 @@ public class HttpUserDetailsService implements UserDetailsService {
         final Runner runner = runnerRepository.findByEmail(email);
         if (runner != null) {
             return runner;
-        } else
-            throw new UsernameNotFoundException("User with email" + email + " not found");
+        } else throw new UsernameNotFoundException("User with email" + email + " not found");
     }
-
 }

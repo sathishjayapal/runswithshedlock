@@ -3,7 +3,6 @@ package me.sathish.runswithshedlock.model;
 import lombok.Getter;
 import org.springframework.hateoas.EntityModel;
 
-
 @Getter
 public class SimpleValue<T> {
 
@@ -17,5 +16,4 @@ public class SimpleValue<T> {
         final SimpleValue<T> simpleValue = new SimpleValue<>(value);
         return EntityModel.of(simpleValue);
     }
-
 }

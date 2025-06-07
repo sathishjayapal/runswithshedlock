@@ -3,13 +3,10 @@ package me.sathish.runswithshedlock.runner;
 import java.util.List;
 import me.sathish.runswithshedlock.garmin_run.GarminRun;
 import me.sathish.runswithshedlock.garmin_run.GarminRunRepository;
-import me.sathish.runswithshedlock.security.UserRoles;
 import me.sathish.runswithshedlock.util.NotFoundException;
 import me.sathish.runswithshedlock.util.ReferencedWarning;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class RunnerService {
@@ -17,21 +14,19 @@ public class RunnerService {
     private final RunnerRepository runnerRepository;
     private final GarminRunRepository garminRunRepository;
 
-    public RunnerService(final RunnerRepository runnerRepository,
-            final GarminRunRepository garminRunRepository) {
+    public RunnerService(final RunnerRepository runnerRepository, final GarminRunRepository garminRunRepository) {
         this.runnerRepository = runnerRepository;
         this.garminRunRepository = garminRunRepository;
     }
 
     public List<RunnerDTO> findAll() {
         final List<Runner> runners = runnerRepository.findAll(Sort.by("id"));
-        return runners.stream()
-                .map(runner -> mapToDTO(runner, new RunnerDTO()))
-                .toList();
+        return runners.stream().map(runner -> mapToDTO(runner, new RunnerDTO())).toList();
     }
 
     public RunnerDTO get(final Long id) {
-        return runnerRepository.findById(id)
+        return runnerRepository
+                .findById(id)
                 .map(runner -> mapToDTO(runner, new RunnerDTO()))
                 .orElseThrow(NotFoundException::new);
     }
@@ -43,8 +38,7 @@ public class RunnerService {
     }
 
     public void update(final Long id, final RunnerDTO runnerDTO) {
-        final Runner runner = runnerRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
+        final Runner runner = runnerRepository.findById(id).orElseThrow(NotFoundException::new);
         mapToEntity(runnerDTO, runner);
         runnerRepository.save(runner);
     }
@@ -78,8 +72,7 @@ public class RunnerService {
 
     public ReferencedWarning getReferencedWarning(final Long id) {
         final ReferencedWarning referencedWarning = new ReferencedWarning();
-        final Runner runner = runnerRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
+        final Runner runner = runnerRepository.findById(id).orElseThrow(NotFoundException::new);
         final GarminRun runnerGarminRun = garminRunRepository.findFirstByRunner(runner);
         if (runnerGarminRun != null) {
             referencedWarning.setKey("runner.garminRun.runner.referenced");
@@ -88,5 +81,4 @@ public class RunnerService {
         }
         return null;
     }
-
 }

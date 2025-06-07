@@ -3,7 +3,6 @@ package me.sathish.runswithshedlock.model;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class PaginationStep {
@@ -12,5 +11,4 @@ public class PaginationStep {
     private boolean disabled = false;
     private String label;
     private String url;
-
 }

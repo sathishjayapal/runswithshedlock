@@ -26,10 +26,8 @@
 
 package org.springdoc.core.providers;
 
-import java.util.Optional;
-
 import jakarta.annotation.PostConstruct;
-
+import java.util.Optional;
 import org.springframework.boot.autoconfigure.hateoas.HateoasProperties;
 import org.springframework.hateoas.mediatype.hal.Jackson2HalModule;
 
@@ -56,7 +54,8 @@ public class HateoasHalProvider {
      * @param hateoasPropertiesOptional the hateoas properties optional
      * @param objectMapperProvider      the object mapper provider
      */
-    public HateoasHalProvider(Optional<HateoasProperties> hateoasPropertiesOptional, ObjectMapperProvider objectMapperProvider) {
+    public HateoasHalProvider(
+            Optional<HateoasProperties> hateoasPropertiesOptional, ObjectMapperProvider objectMapperProvider) {
         this.hateoasPropertiesOptional = hateoasPropertiesOptional;
         this.objectMapperProvider = objectMapperProvider;
     }
@@ -66,8 +65,7 @@ public class HateoasHalProvider {
      */
     @PostConstruct
     protected void init() {
-        if (!isHalEnabled())
-            return;
+        if (!isHalEnabled()) return;
         if (!Jackson2HalModule.isAlreadyRegisteredIn(objectMapperProvider.jsonMapper()))
             objectMapperProvider.jsonMapper().registerModule(new Jackson2HalModule());
     }
@@ -82,5 +80,4 @@ public class HateoasHalProvider {
                 .map(HateoasProperties::isUseHalAsDefaultJsonMediaType)
                 .orElse(true);
     }
-
 }

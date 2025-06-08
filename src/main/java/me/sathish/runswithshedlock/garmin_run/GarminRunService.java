@@ -1,7 +1,6 @@
 package me.sathish.runswithshedlock.garmin_run;
 
 import com.github.javafaker.Faker;
-import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -9,26 +8,32 @@ import me.sathish.runswithshedlock.run_event.RunEventPublisher;
 import me.sathish.runswithshedlock.runner.Runner;
 import me.sathish.runswithshedlock.runner.RunnerRepository;
 import me.sathish.runswithshedlock.util.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Service
-@Transactional
 public class GarminRunService {
 
     private final GarminRunRepository garminRunRepository;
     private final RunnerRepository runnerRepository;
     private final RunEventPublisher runEventPublisher;
+    private final TransactionTemplate transactionTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(GarminRunService.class);
 
     public GarminRunService(
             final GarminRunRepository garminRunRepository,
             final RunnerRepository runnerRepository,
-            RunEventPublisher runEventPublisher) {
+            RunEventPublisher runEventPublisher,
+            TransactionTemplate transactionTemplate) {
         this.garminRunRepository = garminRunRepository;
         this.runnerRepository = runnerRepository;
         this.runEventPublisher = runEventPublisher;
+        this.transactionTemplate = transactionTemplate;
     }
 
     public Page<GarminRunDTO> findAll(final String filter, final Pageable pageable) {
@@ -62,27 +67,36 @@ public class GarminRunService {
     public Long create(final GarminRunDTO garminRunDTO) {
         final GarminRun garminRun = new GarminRun();
         mapToEntity(garminRunDTO, garminRun);
-        for (int i = 0; i < 10; i++) {
-            Faker faker = new Faker();
-            garminRunDTO.setActivityID(faker.number().numberBetween(1, 1000));
-            garminRunDTO.setActivityName(faker.lorem().characters(5, 25));
-            garminRunDTO.setActivityType(faker.lorem().characters(5, 25));
-            Date fakerDate = faker.date().between(new Date(2025, 01, 01), new Date(2025, 12, 31));
-            garminRunDTO.setActivityDate(
-                    LocalDate.of(fakerDate.getYear(), fakerDate.getMonth() + 1, fakerDate.getDate())
-                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            garminRunDTO.setActivityDescription(faker.lorem().sentence());
-            garminRunDTO.setElapsedTime(faker.number().digits(5));
-            garminRunDTO.setDistance(faker.lorem().characters(5, 25));
-            garminRunDTO.setMaxHeartRate(faker.lorem().characters(140, 175));
-            mapToEntity(garminRunDTO, garminRun);
-            garminRunRepository.save(garminRun);
-            runEventPublisher.publishGarminRun(garminRunDTO);
-        }
         final GarminRun savedGarminRun = garminRunRepository.save(garminRun);
         mapToDTO(savedGarminRun, garminRunDTO);
         runEventPublisher.publishGarminRun(garminRunDTO);
         return savedGarminRun.getId();
+    }
+
+    public void bulkUpdate() {
+        for (int i = 0; i < 10000; i++) {
+            Faker faker = new Faker();
+            GarminRunDTO garminRunDTOWithLoop = new GarminRunDTO();
+            GarminRun fakerGarminRun = new GarminRun();
+            garminRunDTOWithLoop.setActivityID(faker.number().numberBetween(1, 1000));
+            garminRunDTOWithLoop.setActivityName(faker.lorem().characters(5, 25));
+            garminRunDTOWithLoop.setActivityType(faker.lorem().characters(5, 25));
+            Date fakerDate = faker.date().between(new Date(2025, 01, 01), new Date(2025, 12, 31));
+            garminRunDTOWithLoop.setActivityDate(
+                    LocalDate.of(fakerDate.getYear(), fakerDate.getMonth() + 1, fakerDate.getDate())
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            garminRunDTOWithLoop.setActivityDescription(faker.lorem().sentence());
+            garminRunDTOWithLoop.setElapsedTime(faker.number().digits(5));
+            garminRunDTOWithLoop.setDistance(faker.lorem().characters(5, 25));
+            garminRunDTOWithLoop.setMaxHeartRate(faker.lorem().characters(140, 175));
+            mapToEntity(garminRunDTOWithLoop, fakerGarminRun);
+            transactionTemplate.execute(transactionStatus -> {
+                garminRunRepository.save(fakerGarminRun);
+                logger.info("Saved Garmin run with ID: {}", fakerGarminRun.getId());
+                runEventPublisher.publishGarminRun(garminRunDTOWithLoop);
+                return true;
+            });
+        }
     }
 
     public void update(final Long id, final GarminRunDTO garminRunDTO) {

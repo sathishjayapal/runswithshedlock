@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@ConfigurationPropertiesScan
 @EnableScheduling
+@ConfigurationPropertiesScan
 public class RunswithshedlockApplication {
     public static void main(final String[] args) {
         SpringApplication.run(RunswithshedlockApplication.class, args);

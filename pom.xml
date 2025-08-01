@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
+        <version>3.5.4</version>
         <relativePath /><!-- lookup parent from repository -->
     </parent>
     <groupId>me.sathish</groupId>
@@ -175,7 +175,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <nodeVersion>v22.16.0</nodeVersion>
+                    <nodeVersion>v22.17.1</nodeVersion>
                 </configuration>
             </plugin>
         </plugins>

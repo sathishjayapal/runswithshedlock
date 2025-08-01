@@ -33,7 +33,7 @@
                                     <a th:href="@{/runEvents/edit/{id}(id=${runEvent.id})}" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm">[[#{runEvent.list.edit}]]</a>
                                     <form th:action="@{/runEvents/delete/{id}(id=${runEvent.id})}"
                                             th:hx-confirm="#{delete.confirm}" method="post" class="inline">
-                                        <button type="submit" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm">[[#{runEvent.list.delete}]]</button>
+                                        <button type="submit" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm cursor-pointer">[[#{runEvent.list.delete}]]</button>
                                     </form>
                                 </div>
                             </td>

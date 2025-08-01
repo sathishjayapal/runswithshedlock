@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,7 +49,7 @@ public class Runner {
     private String hash;
 
     @OneToMany(mappedBy = "runner")
-    private Set<GarminRun> garminRuns;
+    private Set<GarminRun> garminRuns = new HashSet<>();
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

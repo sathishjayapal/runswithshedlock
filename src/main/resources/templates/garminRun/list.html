@@ -47,7 +47,7 @@
                                     <a th:href="@{/garminRuns/edit/{id}(id=${garminRun.id})}" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm">[[#{garminRun.list.edit}]]</a>
                                     <form th:action="@{/garminRuns/delete/{id}(id=${garminRun.id})}"
                                             th:hx-confirm="#{delete.confirm}" method="post" class="inline">
-                                        <button type="submit" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm">[[#{garminRun.list.delete}]]</button>
+                                        <button type="submit" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm cursor-pointer">[[#{garminRun.list.delete}]]</button>
                                     </form>
                                 </div>
                             </td>

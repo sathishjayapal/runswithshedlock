@@ -52,8 +52,7 @@ springdoc:
 server:
   port: 9080
 garminrun-event:
-  garmin-exchange: garminrun-event-exchange
-  garmin-newrun-queue: garminrun-run-queue
-  garmin-error-queue: garminrun-error-queue
+  garmin-exchange: x.sathishprojects.fanout
+  garmin-ops-routing-key: sathishprojects.garmin.ops.event
 processRunEvents:
   fixedRate:  10000

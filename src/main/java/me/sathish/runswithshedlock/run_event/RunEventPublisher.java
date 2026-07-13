@@ -17,6 +17,6 @@ public class RunEventPublisher {
 
     public void publishGarminRun(GarminRunDTO garminRunDTO) {
         rabbitTemplate.convertAndSend(
-                applicationProperties.garminExchange(), applicationProperties.garminNewRunQueue(), garminRunDTO);
+                applicationProperties.garminExchange(), applicationProperties.garminOpsRoutingKey(), garminRunDTO);
     }
 }

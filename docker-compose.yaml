@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17.5
+    environment:
+      - POSTGRES_DB=${SHEDLOCK_DB_NAME:-runs-without-shedlock}
+      - POSTGRES_USER=${SHEDLOCK_DB_USER:?set in .env (see .env.example)}
+      - POSTGRES_PASSWORD=${SHEDLOCK_DB_PASSWORD:?set in .env (see .env.example)}
+    ports:
+      - 5437:5432
+    volumes:
+      - shedlock_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SHEDLOCK_DB_USER} -d ${SHEDLOCK_DB_NAME:-runs-without-shedlock}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  shedlock_pg_data:
